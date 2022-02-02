@@ -15,38 +15,64 @@ This project is the 5th of JS-30 challenge where I learned about ```DOM, event l
 
 ## Lessons Learned
 
-As this is one of the first JS challenge, here I first understood the loop of ```adding eventlisters.```
-
-```DOM SELECTION => EVENT lISTENER => ADD/REMOVE CLASS```.
-
-```EVENT lISTENER => DOM SELECTION => ADD/REMOVE CLASS```.
-
+I learned the power of css and the power of clicks what is possible to do with projects list ideas with flex.<br>
+More on the topic of flex grow and the power of translateY to keep out of sight and bring back with transition timing.
 
 ```
-function playSound(e) {  //this e is event
-window.addEventListener("keydown", playSound);
-
-  const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);  //to get the audio of that keycode.
-  const key = document.querySelector(`.key[data-key="${e.keyCode}"]`);     //to get the div associated with the keycode.
-
-  if (!audio) return;
-  audio.currentTime = 0;
-  audio.play();
-
-  key.classList.add("playing");
+GIVING THE TRANSITION
+panel > * {
+  margin: 0;
+  width: 100%;
+  transition: transform 0.5s;
+  flex: 1 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+TRANSLATE TO GO OUT OF SIGHT AND BRING IT BACK IN SIGHT WITH TRANSITION.
+.panel > *:first-child {
+  transform: translateY(-100%);
+}
+
+.panel.open-active > *:first-child {
+  transform: translateY(0);
+}
+
+
+THE FLEX GROW ON CLICK
+.panel.open {
+  flex: 5;
+  font-size: 40px;
+}
+
+function toggleOpen() {
+  this.classList.toggle('open');
+}
+
+//This one is for text.
+function toggleActive(e) {
+  if (e.propertyName.includes('flex')) {
+    this.classList.toggle('open-active');
+  }
+}
+
+
+panels.forEach(panel => panel.addEventListener('click', toggleOpen));
+
+panels.forEach(panel => panel.addEventListener('transitionend', toggleActive));
+
 ```
 
-Here, e = event & addEventListener is added followed by DOM and then add class at the end.
 
 ## Optimizations
 
-The everytime changing background rather than static one.
+Is there an easy way to bring back the images rather than lot of CSS backgrounds and different styles.
 
 ## Screenshots
 
-![image](https://user-images.githubusercontent.com/42742924/150361427-0e124b08-53ad-4a65-bdca-b31d9a6a5fb5.png)
+![image](https://user-images.githubusercontent.com/42742924/152200433-95c274ce-328b-4eeb-baf6-0d4b4cfff5ff.png)
+
 
 ## Tech Stack
 
@@ -54,14 +80,6 @@ The everytime changing background rather than static one.
 
 ## Documentation
 
-[Difference between onClick & addEventListner](https://stackoverflow.com/questions/6348494/addeventlistener-vs-onclick)
-
-[Difference2 between onClick & addEventListner](https://www.google.com/search?client=firefox-b-d&q=onclick+event+listener+vs+.addeventlistner)
 
 # Notes 
 
-The function playSound is selecting the audio and the div element related the specific keys and playing the sound with addition of border class.
-
-The another remove transition is used to wait for the transform transaction to end it's animation where after class is removed after animation.
-
-Finally it is calling both the function at the end and it is working
